@@ -120,8 +120,8 @@ char* evaluate(char* expression) {
             pushChar(operators, expression[i]);
         } else if (expression[i] == ')') {
             while (topChar(operators) != '(') {
-                double a = popDouble(operands);
                 double b = popDouble(operands);
+                double a = popDouble(operands);
                 double c = 0;
                 char op = popChar(operators);
                 c = solve(op, a, b);
@@ -129,18 +129,17 @@ char* evaluate(char* expression) {
             }
             popChar(operators);
         } else if (expression[i] == '-') {
-            if (i == 0 || !('0' <= expression[i - 1] && expression[i] <= '9')) {
+            if (i == 0 || !('0' <= expression[i - 1] && expression[i - 1] <= '9')) {
                 // This is negative number.
                 double val;
-                i++;
                 i = parseDouble(expression, len, i + 1, &val);
                 pushDouble(operands, -1 * val);
                 continue;
             } else {
                 // '-' is an operator.
                 while (!isEmptyChar(operators) && getPriority(topChar(operators)) >= getPriority(expression[i])) {
-                    double a = popDouble(operands);
                     double b = popDouble(operands);
+                    double a = popDouble(operands);
                     double c = 0;
                     char op = popChar(operators);
                     c = solve(op, a, b);
@@ -150,8 +149,8 @@ char* evaluate(char* expression) {
             }
         } else if (isValidOperator(expression[i])) {
             while (!isEmptyChar(operators) && getPriority(topChar(operators)) >= getPriority(expression[i])) {
-                double a = popDouble(operands);
                 double b = popDouble(operands);
+                double a = popDouble(operands);
                 double c = 0;
                 char op = popChar(operators);
                 c = solve(op, a, b);
@@ -165,8 +164,8 @@ char* evaluate(char* expression) {
     }
 
     while (!isEmptyChar(operators)) {
-        double a = popDouble(operands);
         double b = popDouble(operands);
+        double a = popDouble(operands);
         double c = 0;
         char op = popChar(operators);
         c = solve(op, a, b);
