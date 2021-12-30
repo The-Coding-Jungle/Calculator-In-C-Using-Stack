@@ -174,6 +174,7 @@ char* evaluate(char* expression) {
 
     double ans = popDouble(operands);
 
+    free(expression); // Because expression was allocated by us so we need to free it.
     free(operands);
     free(operators);
 
