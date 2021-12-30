@@ -13,11 +13,16 @@ void makeLower(char* str) {
 }
 
 int main() {
-    char expression[MAX_EXPRESSION_LENGTH];
+    char* expression;
 
     while (true){
         printf("Enter an expression: ");
-        scanf("%s", expression);
+        int size = MAX_EXPRESSION_LENGTH;
+        getline(&expression, &size, stdin);
+
+        size = strlen(expression);
+        expression[size - 1] = '\0';
+        // Replacing new line with NULL char so that it can be used in strcmp
 
         makeLower(expression);
         // Making the expression lowercase to compare commands easily.
