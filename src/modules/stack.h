@@ -91,6 +91,11 @@ bool isEmptyChar(stackChar* s) {
     return s->tos == -1;
 }
 
+void freeStackChar(stackChar* s) {
+    free(s->arr);
+    free(s);
+}
+
 typedef struct {
     double* arr;
     int size, tos;
@@ -178,4 +183,9 @@ double topDouble(stackDouble* s) {
 
 bool isEmptyDouble(stackDouble* s) {
     return s->tos == -1;
+}
+
+void freeStackDouble(stackDouble* s) {
+    free(s->arr);
+    free(s);
 }

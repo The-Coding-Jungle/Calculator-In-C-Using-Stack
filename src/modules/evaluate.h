@@ -79,6 +79,31 @@ bool isValidOperator(char c) {
     return false;
 }
 
+bool isValidExpression(char* exp) {
+    int len = strlen(exp);
+    for (int i = 0; i < len; i++) {
+        if ((exp[i] >= '0' && exp[i] <= '9') || exp[i] == '.' || isValidOperator(exp[i])) {
+            continue;
+        } else {
+            return false;
+        }
+    }
+
+    stackChar* operators = initStackChar();
+
+    for (int i = 0; i < len; i++) {
+        if (exp[i] == '(') {
+            pushChar(operators, '(');
+        } else if (exp[i] == ')' && topChar(operators) != '(') {
+            return false;
+        }
+    }
+
+    bool toReturn = isEmptyChar(operators);
+    freeStackChar(operators);
+    return toReturn;
+}
+
 /**
  * @brief Evaluates an infix expression.
  * 
@@ -109,6 +134,10 @@ char* evaluate(char* expression) {
     stackDouble* operands = initStackDouble();
 
     int i = 0;
+
+    if (!isValidExpression(expression)) {
+        return "INVALID_EXPRESSION";
+    }
 
     while (i < len) {
         if ('0' <= expression[i] && expression[i] <= '9') {
@@ -175,8 +204,8 @@ char* evaluate(char* expression) {
     double ans = popDouble(operands);
 
     free(expression); // Because expression was allocated by us so we need to free it.
-    free(operands);
-    free(operators);
+    freeStackChar(operators);
+    freeStackDouble(operands);
 
     char *ansStr = (char*) malloc(sizeof (char) * ANSWER_STRING_LENGTH);
     sprintf(ansStr, "%lf", ans);
